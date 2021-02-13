@@ -1,20 +1,25 @@
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
 import React, { useEffect } from "react";
 import { Text } from "react-native";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { useAuthState } from "../../auth";
 import { fetchUser } from "../../redux/actions/index";
-import Main from "../main/Main";
+import AddScreen from "../main/Add";
+import MainScreen from "../main/Main";
 
-function AuthenticatedApp({ fetchUser, currentUser }) {
+const Stack = createStackNavigator();
+export default function AuthenticatedApp({ fetchUser, currentUser }) {
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Main">
         <Stack.Screen
           name="Main"
           component={MainScreen}
-          // options={{ headerShown: false }}
+          options={{ headerShown: false }}
         />
+        <Stack.Screen name="Add" component={AddScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
