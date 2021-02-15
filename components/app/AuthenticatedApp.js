@@ -8,6 +8,7 @@ import { useAuthState } from "../../auth";
 import { fetchUser } from "../../redux/actions/index";
 import AddScreen from "../main/Add";
 import MainScreen from "../main/Main";
+import SaveScreen from "../main/Save";
 
 const Stack = createStackNavigator();
 export default function AuthenticatedApp({ fetchUser, currentUser }) {
@@ -20,6 +21,7 @@ export default function AuthenticatedApp({ fetchUser, currentUser }) {
           options={{ headerShown: false }}
         />
         <Stack.Screen name="Add" component={AddScreen} />
+        <Stack.Screen name="Save" component={SaveScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
