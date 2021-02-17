@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { StyleSheet, Text, View, Button, Image, Platform } from "react-native";
 import { Camera } from "expo-camera";
 import * as ImagePicker from "expo-image-picker";
+import { useFocusEffect } from "@react-navigation/native";
 
 export default function Add({ navigation }) {
   const [hasGalleryPermission, setHasGalleryPermission] = useState(null);
@@ -9,6 +10,18 @@ export default function Add({ navigation }) {
   const [camera, setCamera] = useState(null);
   const [image, setImage] = useState(null);
   const [type, setType] = useState(Camera.Constants.Type.back);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      // Do something when the screen is focused
+
+      return () => {
+        // Do something when the screen is unfocused
+        // Useful for cleanup functions
+        setCamera(null);
+      };
+    }, [])
+  );
 
   useEffect(() => {
     try {
