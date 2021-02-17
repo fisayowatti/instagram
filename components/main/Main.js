@@ -4,10 +4,20 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { View } from "react-native";
 import FeedScreen from "./Feed";
 import ProfileScreen from "./Profile";
-// import { useAuthState } from '../../auth';
+import { fetchUser, fetchUserPosts } from "../../redux/actions/index";
+import { bindActionCreators } from "redux";
+import { useAuthState } from "../../auth";
+import { connect } from "react-redux";
 
-export default function Main() {
+const Main = ({ fetchUser, fetchUserPosts, currentUser }) => {
   const Tab = createBottomTabNavigator();
+
+  const { auth } = useAuthState();
+  useEffect(() => {
+    fetchUser(auth.userId);
+    fetchUserPosts(auth.userId);
+  }, [auth.userId]);
+
   return (
     <Tab.Navigator tabBarOptions={{ showLabel: false }}>
       <Tab.Screen
@@ -52,4 +62,13 @@ export default function Main() {
       />
     </Tab.Navigator>
   );
-}
+};
+
+const mapStateToProps = (store) => ({
+  currentUser: store.userState.currentUser,
+});
+
+const mapDispatchToProps = (dispatch) =>
+  bindActionCreators({ fetchUser, fetchUserPosts }, dispatch);
+
+export default connect(mapStateToProps, mapDispatchToProps)(Main);

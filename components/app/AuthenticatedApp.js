@@ -11,7 +11,7 @@ import MainScreen from "../main/Main";
 import SaveScreen from "../main/Save";
 
 const Stack = createStackNavigator();
-export default function AuthenticatedApp({ fetchUser, currentUser }) {
+export default function AuthenticatedApp() {
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Main">
@@ -26,12 +26,3 @@ export default function AuthenticatedApp({ fetchUser, currentUser }) {
     </NavigationContainer>
   );
 }
-
-// const mapStateToProps = (store) => ({
-//   currentUser: store.userState.currentUser,
-// });
-
-// const mapDispatchProps = (dispatch) =>
-//   bindActionCreators({ fetchUser }, dispatch);
-
-// export default connect(mapStateToProps, mapDispatchProps)(AuthenticatedApp);
