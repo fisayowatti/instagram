@@ -1,8 +1,11 @@
 import { useFocusEffect } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
 import { Button, Image, TextInput, View } from "react-native";
+// import { connect } from "react-redux";
+// import { bindActionCreators } from "redux";
 import { useAuthState } from "../../auth";
 import { firestore, storage } from "../../firebase";
+// import { fetchUserPosts } from "../../redux/actions";
 
 export default function Save(props) {
   const [caption, setCaption] = useState("");
@@ -89,6 +92,7 @@ export default function Save(props) {
         creation: timeCreated,
       })
       .then(function () {
+        // props.fetchUserPosts(auth.userId);
         props.navigation.popToTop();
       });
   };
@@ -103,3 +107,8 @@ export default function Save(props) {
     </View>
   );
 }
+
+// const mapDispatchToProps = (dispatch) =>
+//   bindActionCreators({ fetchUserPosts }, dispatch);
+
+// export default connect(null, mapDispatchToProps)(Save);
