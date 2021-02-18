@@ -28,8 +28,8 @@ export function fetchUserPosts(userId) {
       .doc(userId)
       .collection("userPosts")
       .orderBy("creation", "asc")
-      .get()
-      .then((snapshot) => {
+      // .get()
+      .onSnapshot((snapshot) => {
         console.log("simole");
         let posts = snapshot.docs.map((doc) => {
           const id = doc.id;
