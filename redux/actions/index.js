@@ -1,5 +1,9 @@
 import { firestore } from "../../firebase";
-import { USER_STATE_CHANGE, USER_POSTS_STATE_CHANGE } from "../constants/index";
+import {
+  USER_STATE_CHANGE,
+  USER_POSTS_STATE_CHANGE,
+  USERS_STATE_CHANGE,
+} from "../constants/index";
 // import firebase from "firebase";
 // require("firebase/firestore");
 
@@ -28,15 +32,32 @@ export function fetchUserPosts(userId) {
       .doc(userId)
       .collection("userPosts")
       .orderBy("creation", "asc")
-      // .get()
       .onSnapshot((snapshot) => {
-        console.log("simole");
         let posts = snapshot.docs.map((doc) => {
           const id = doc.id;
           const data = doc.data();
           return { id, ...data };
         });
         dispatch({ type: USER_POSTS_STATE_CHANGE, posts });
+      });
+  };
+}
+
+export function fetchUsers(search) {
+  console.log("search", search);
+  return (dispatch) => {
+    firestore
+      .collection("users")
+      .where("name", ">=", search)
+      .get()
+      .then((snapshot) => {
+        let allUsers = snapshot.docs.map((doc) => {
+          const id = doc.id;
+          const data = doc.data();
+          return { id, ...data };
+        });
+        console.log("allUsers", allUsers);
+        dispatch({ type: USERS_STATE_CHANGE, allUsers });
       });
   };
 }
