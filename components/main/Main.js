@@ -4,6 +4,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { View } from "react-native";
 import FeedScreen from "./Feed";
 import ProfileScreen from "./Profile";
+import SearchScreen from "./Search";
 import { fetchUser, fetchUserPosts } from "../../redux/actions/index";
 import { bindActionCreators } from "redux";
 import { useAuthState } from "../../auth";
@@ -30,6 +31,15 @@ const Main = ({ fetchUser, fetchUserPosts, currentUser }) => {
         }}
       />
       <Tab.Screen
+        name="Search"
+        component={SearchScreen}
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons name="magnify" color={color} size={26} />
+          ),
+        }}
+      />
+      <Tab.Screen
         name="AddContainer"
         // component={() => <View></View>}
         listeners={({ navigation }) => ({
@@ -49,7 +59,8 @@ const Main = ({ fetchUser, fetchUserPosts, currentUser }) => {
       </Tab.Screen>
       <Tab.Screen
         name="Profile"
-        component={ProfileScreen}
+        // component={ProfileScreen}
+        children={(props) => <ProfileScreen userId={auth.userId} {...props} />}
         options={{
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons
@@ -59,6 +70,7 @@ const Main = ({ fetchUser, fetchUserPosts, currentUser }) => {
             />
           ),
         }}
+        initialParams={{ uid: auth.userId }}
       />
     </Tab.Navigator>
   );
