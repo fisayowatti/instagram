@@ -1,13 +1,36 @@
-import React from "react";
+import { useFocusEffect } from "@react-navigation/native";
+import React, { useEffect } from "react";
 
 import { View, Text, StyleSheet, Image, FlatList } from "react-native";
 import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import { fetchUser, fetchUserPosts } from "../../redux/actions";
 
 function Profile(props) {
-  const { posts, currentUser } = props;
+  const { posts, currentUser, route, fetchUser, fetchUserPosts } = props;
+
+  useFocusEffect(
+    React.useCallback(() => {
+      // Do something when the screen is focused
+
+      console.log("profile uid", route.params.uid);
+      fetchUser(route.params.uid);
+      fetchUserPosts(route.params.uid);
+
+      return () => {
+        // Do something when the screen is unfocused
+        // Useful for cleanup functions
+        route.params.uid = props.userId;
+      };
+    }, [route.params.uid])
+  );
   console.log(posts);
   return (
     <View style={styles.container}>
+      <View>
+        <Text>{currentUser.name}</Text>
+        <Text>{currentUser.email}</Text>
+      </View>
       <View style={styles.galleryContainer}>
         <FlatList
           keyExtractor={(item) => item.id}
@@ -49,4 +72,7 @@ const mapStateToProps = (store) => ({
   posts: store.userState.posts,
 });
 
-export default connect(mapStateToProps, null)(Profile);
+const mapDispatchToProps = (dispatch) =>
+  bindActionCreators({ fetchUser, fetchUserPosts }, dispatch);
+
+export default connect(mapStateToProps, mapDispatchToProps)(Profile);
