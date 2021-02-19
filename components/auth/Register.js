@@ -15,7 +15,7 @@ export default function Register() {
       .createUserWithEmailAndPassword(email, password) // email: test1@mail.com , password: 123456
       .then((result) => {
         firestore.collection("users").doc(auth.currentUser.uid).set({
-          name,
+          name: name.toLowerCase(),
           email,
         });
         console.log(result);
