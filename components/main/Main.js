@@ -6,6 +6,7 @@ import FeedScreen from "./Feed";
 import ProfileScreen from "./Profile";
 import SearchScreen from "./Search";
 import {
+  clearData,
   fetchUser,
   fetchUserFollowingList,
   fetchUserPosts,
@@ -18,12 +19,13 @@ const Main = ({
   fetchUser,
   fetchUserPosts,
   fetchUserFollowingList,
-  currentUser,
+  clearData,
 }) => {
   const Tab = createBottomTabNavigator();
 
   const { auth } = useAuthState();
   useEffect(() => {
+    clearData();
     fetchUser(auth.userId);
     fetchUserPosts(auth.userId);
     fetchUserFollowingList(auth.userId);
@@ -92,7 +94,7 @@ const mapStateToProps = (store) => ({
 
 const mapDispatchToProps = (dispatch) =>
   bindActionCreators(
-    { fetchUser, fetchUserPosts, fetchUserFollowingList },
+    { fetchUser, fetchUserPosts, fetchUserFollowingList, clearData },
     dispatch
   );
 

@@ -5,6 +5,7 @@ import {
   USERS_STATE_CHANGE,
   USER_FOLLOWING_LIST_CHANGE,
   USER_FOLLOWING_POSTS_CHANGE,
+  CLEAR_DATA,
 } from "../constants/index";
 // import firebase from "firebase";
 // require("firebase/firestore");
@@ -122,6 +123,10 @@ export function fetchUserFollowingPosts(followUserId) {
         dispatch({ type: USER_FOLLOWING_POSTS_CHANGE, posts });
       });
   };
+}
+
+export function clearData() {
+  return (dispatch) => dispatch({ type: CLEAR_DATA });
 }
 
 // export function fetchUserPosts(userId) {

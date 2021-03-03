@@ -4,6 +4,7 @@ import {
   USERS_STATE_CHANGE,
   USER_FOLLOWING_LIST_CHANGE,
   USER_FOLLOWING_POSTS_CHANGE,
+  CLEAR_DATA,
 } from "../constants";
 
 const initialState = {
@@ -41,6 +42,8 @@ export const user = (state = initialState, action) => {
         ...state,
         userFollowingPosts: [...state.userFollowingPosts, ...action.posts],
       };
+    case CLEAR_DATA:
+      return initialState;
     default:
       return state;
   }
