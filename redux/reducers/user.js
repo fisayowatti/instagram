@@ -2,12 +2,16 @@ import {
   USER_POSTS_STATE_CHANGE,
   USER_STATE_CHANGE,
   USERS_STATE_CHANGE,
+  USER_FOLLOWING_LIST_CHANGE,
+  USER_FOLLOWING_POSTS_CHANGE,
 } from "../constants";
 
 const initialState = {
   currentUser: null,
   allUsers: [],
   posts: [],
+  userFollowingList: [],
+  userFollowingPosts: [],
 };
 
 export const user = (state = initialState, action) => {
@@ -26,6 +30,16 @@ export const user = (state = initialState, action) => {
       return {
         ...state,
         posts: action.posts,
+      };
+    case USER_FOLLOWING_LIST_CHANGE:
+      return {
+        ...state,
+        userFollowingList: action.userFollowingList,
+      };
+    case USER_FOLLOWING_POSTS_CHANGE:
+      return {
+        ...state,
+        userFollowingPosts: [...state.userFollowingPosts, ...action.posts],
       };
     default:
       return state;

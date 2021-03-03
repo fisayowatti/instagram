@@ -3,6 +3,8 @@ import {
   USER_STATE_CHANGE,
   USER_POSTS_STATE_CHANGE,
   USERS_STATE_CHANGE,
+  USER_FOLLOWING_LIST_CHANGE,
+  USER_FOLLOWING_POSTS_CHANGE,
 } from "../constants/index";
 // import firebase from "firebase";
 // require("firebase/firestore");
@@ -58,6 +60,66 @@ export function fetchUsers(search) {
         });
         console.log("allUsers", allUsers);
         dispatch({ type: USERS_STATE_CHANGE, allUsers });
+      });
+  };
+}
+
+export function onFollow(loggedInUserId, followUserId) {
+  return (dispatch) => {
+    firestore
+      .collection("following")
+      .doc(loggedInUserId)
+      .collection("userFollowing")
+      .doc(followUserId)
+      .set({});
+  };
+}
+
+export function onUnfollow(loggedInUserId, followUserId) {
+  return (dispatch) => {
+    firestore
+      .collection("following")
+      .doc(loggedInUserId)
+      .collection("userFollowing")
+      .doc(followUserId)
+      .delete();
+  };
+}
+
+export function fetchUserFollowingList(userId) {
+  return (dispatch) => {
+    firestore
+      .collection("following")
+      .doc(userId)
+      .collection("userFollowing")
+      .onSnapshot((snapshot) => {
+        let userFollowingList = snapshot.docs.map((doc) => {
+          return doc.id;
+        });
+        dispatch({ type: USER_FOLLOWING_LIST_CHANGE, userFollowingList });
+
+        userFollowingList.forEach((id) =>
+          dispatch(fetchUserFollowingPosts(id))
+        );
+      });
+  };
+}
+
+export function fetchUserFollowingPosts(followUserId) {
+  return (dispatch) => {
+    firestore
+      .collection("posts")
+      .doc(followUserId)
+      .collection("userPosts")
+      .orderBy("creation", "asc")
+      .onSnapshot((snapshot) => {
+        let posts = snapshot.docs.map((doc) => {
+          const id = doc.id;
+          const data = doc.data();
+          return { id, ...data };
+        });
+
+        dispatch({ type: USER_FOLLOWING_POSTS_CHANGE, posts });
       });
   };
 }

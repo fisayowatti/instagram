@@ -1,13 +1,28 @@
 import { useFocusEffect } from "@react-navigation/native";
-import React, { useEffect } from "react";
+import React from "react";
 
-import { View, Text, StyleSheet, Image, FlatList } from "react-native";
+import { View, Text, StyleSheet, Image, FlatList, Button } from "react-native";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { fetchUser, fetchUserPosts } from "../../redux/actions";
+import {
+  fetchUser,
+  fetchUserFollowingList,
+  fetchUserPosts,
+  onFollow,
+  onUnfollow,
+} from "../../redux/actions";
 
 function Profile(props) {
-  const { posts, currentUser, route, fetchUser, fetchUserPosts } = props;
+  const {
+    posts,
+    currentUser,
+    route,
+    fetchUser,
+    fetchUserPosts,
+    userFollowingList,
+    onUnfollow,
+    onFollow,
+  } = props;
 
   useFocusEffect(
     React.useCallback(() => {
@@ -21,22 +36,41 @@ function Profile(props) {
         // Do something when the screen is unfocused
         // Useful for cleanup functions
         route.params.uid = props.userId;
+        console.log("new uid", route.params.uid);
       };
     }, [route.params.uid])
   );
-  console.log(posts);
+
+  // if (!currentUser) {
+  //   return <View />;
+  // }
+
   return (
     <View style={styles.container}>
       <View>
-        <Text>{currentUser.name}</Text>
-        <Text>{currentUser.email}</Text>
+        <Text>{currentUser?.name}</Text>
+        <Text>{currentUser?.email}</Text>
+        {route.params.uid && route.params.uid !== props.userId ? (
+          <Button
+            title={
+              userFollowingList.indexOf(route.params.uid) > -1
+                ? "Following"
+                : "Follow"
+            }
+            onPress={() =>
+              userFollowingList.indexOf(route.params.uid) > -1
+                ? onUnfollow(props.userId, route.params.uid)
+                : onFollow(props.userId, route.params.uid)
+            }
+          />
+        ) : null}
       </View>
       <View style={styles.galleryContainer}>
         <FlatList
-          keyExtractor={(item) => item.id}
           numColumns={3}
-          data={posts}
           horizontal={false}
+          keyExtractor={(item) => item.id}
+          data={posts}
           renderItem={({ item }) => (
             <View style={styles.imgContainer}>
               <Image source={{ uri: item.downloadURL }} style={styles.img} />
@@ -70,9 +104,13 @@ const styles = StyleSheet.create({
 const mapStateToProps = (store) => ({
   currentUser: store.userState.currentUser,
   posts: store.userState.posts,
+  userFollowingList: store.userState.userFollowingList,
 });
 
 const mapDispatchToProps = (dispatch) =>
-  bindActionCreators({ fetchUser, fetchUserPosts }, dispatch);
+  bindActionCreators(
+    { fetchUser, fetchUserPosts, onFollow, onUnfollow, fetchUserFollowingList },
+    dispatch
+  );
 
 export default connect(mapStateToProps, mapDispatchToProps)(Profile);
