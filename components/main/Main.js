@@ -5,18 +5,28 @@ import { View } from "react-native";
 import FeedScreen from "./Feed";
 import ProfileScreen from "./Profile";
 import SearchScreen from "./Search";
-import { fetchUser, fetchUserPosts } from "../../redux/actions/index";
+import {
+  fetchUser,
+  fetchUserFollowingList,
+  fetchUserPosts,
+} from "../../redux/actions/index";
 import { bindActionCreators } from "redux";
 import { useAuthState } from "../../auth";
 import { connect } from "react-redux";
 
-const Main = ({ fetchUser, fetchUserPosts, currentUser }) => {
+const Main = ({
+  fetchUser,
+  fetchUserPosts,
+  fetchUserFollowingList,
+  currentUser,
+}) => {
   const Tab = createBottomTabNavigator();
 
   const { auth } = useAuthState();
   useEffect(() => {
     fetchUser(auth.userId);
     fetchUserPosts(auth.userId);
+    fetchUserFollowingList(auth.userId);
   }, [auth.userId]);
 
   return (
@@ -81,6 +91,9 @@ const mapStateToProps = (store) => ({
 });
 
 const mapDispatchToProps = (dispatch) =>
-  bindActionCreators({ fetchUser, fetchUserPosts }, dispatch);
+  bindActionCreators(
+    { fetchUser, fetchUserPosts, fetchUserFollowingList },
+    dispatch
+  );
 
 export default connect(mapStateToProps, mapDispatchToProps)(Main);
