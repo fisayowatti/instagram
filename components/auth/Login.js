@@ -28,7 +28,7 @@ export default function Login() {
         secureTextEntry
         onChangeText={(password) => setPassword(password)}
       />
-      <Button title="sign up" onPress={() => onSignIn()} />
+      <Button title="sign in" onPress={() => onSignIn()} />
     </View>
   );
 }
