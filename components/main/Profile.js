@@ -4,6 +4,7 @@ import React from "react";
 import { View, Text, StyleSheet, Image, FlatList, Button } from "react-native";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
+import { auth } from "../../firebase";
 import {
   fetchUser,
   fetchUserFollowingList,
@@ -45,6 +46,10 @@ function Profile(props) {
   //   return <View />;
   // }
 
+  const onLogout = () => {
+    auth.signOut();
+  };
+
   return (
     <View style={styles.container}>
       <View>
@@ -63,7 +68,9 @@ function Profile(props) {
                 : onFollow(props.userId, route.params.uid)
             }
           />
-        ) : null}
+        ) : (
+          <Button title="Logout" onPress={onLogout} />
+        )}
       </View>
       <View style={styles.galleryContainer}>
         <FlatList
