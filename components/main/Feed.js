@@ -5,10 +5,6 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
 function Feed({ userFollowingPosts }) {
-  console.log("posts", userFollowingPosts);
-
-  const dimensions = Dimensions.get("window");
-  const screenWidth = dimensions.width;
   if (userFollowingPosts.length < 1) {
     return <View />;
   }
@@ -29,10 +25,6 @@ function Feed({ userFollowingPosts }) {
             <Text>{item.downloadURL}</Text>
           </View>
         )}
-      />
-      <Image
-        style={{ flex: 1, aspectRatio: 1 / 1 }}
-        source={{ uri: userFollowingPosts[0]?.downloadURL }}
       />
     </View>
   );
