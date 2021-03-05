@@ -3,6 +3,9 @@ import React, { Suspense } from "react";
 import { StyleSheet, View, Text } from "react-native";
 import { useAuthState } from "./auth";
 import AppProviders from "./components/app/AppProviders";
+import { LogBox } from "react-native";
+
+LogBox.ignoreLogs(["Setting a timer"]);
 
 // const Stack = createStackNavigator();
 
