@@ -6,7 +6,9 @@ import { useAuth, useAuthState } from "../../auth";
 import { auth as firebaseAuth } from "../../firebase";
 
 function Comment({ route, allUsers }) {
-  const { userId } = useAuth();
+  const {
+    params: { userId },
+  } = route;
   const [text, setText] = useState("");
   const [comments, setComments] = useState([]);
 
