@@ -5,6 +5,7 @@ import {
   USER_FOLLOWING_LIST_CHANGE,
   USER_FOLLOWING_POSTS_CHANGE,
   CLEAR_DATA,
+  USER_LIKED_POSTS_STATE_CHANGE,
 } from "../constants";
 
 const initialState = {
@@ -13,6 +14,7 @@ const initialState = {
   posts: [],
   userFollowingList: [],
   userFollowingPosts: [],
+  likedPosts: [],
 };
 
 export const user = (state = initialState, action) => {
@@ -44,6 +46,11 @@ export const user = (state = initialState, action) => {
       };
     case CLEAR_DATA:
       return initialState;
+    case USER_LIKED_POSTS_STATE_CHANGE:
+      return {
+        ...state,
+        likedPosts: action.likedPosts,
+      };
     default:
       return state;
   }

@@ -5,6 +5,7 @@ import {
   USERS_STATE_CHANGE,
   USER_FOLLOWING_LIST_CHANGE,
   USER_FOLLOWING_POSTS_CHANGE,
+  USER_LIKED_POSTS_STATE_CHANGE,
   CLEAR_DATA,
 } from "../constants/index";
 // import firebase from "firebase";
@@ -117,7 +118,7 @@ export function fetchUserFollowingPosts(followUserId) {
         let posts = snapshot.docs.map((doc) => {
           const id = doc.id;
           const data = doc.data();
-          return { id, ...data };
+          return { id, ...data, creatorId: followUserId };
         });
 
         dispatch({ type: USER_FOLLOWING_POSTS_CHANGE, posts });
@@ -127,6 +128,19 @@ export function fetchUserFollowingPosts(followUserId) {
 
 export function clearData() {
   return (dispatch) => dispatch({ type: CLEAR_DATA });
+}
+
+export function fetchUserLikedPosts(userId) {
+  return (dispatch) => {
+    firestore
+      .collection("likes")
+      .doc(userId)
+      .collection("userLikes")
+      .onSnapshot((snapshot) => {
+        let likedPosts = snapshot.docs.map((doc) => doc.id);
+        dispatch({ type: USER_LIKED_POSTS_STATE_CHANGE, likedPosts });
+      });
+  };
 }
 
 // export function fetchUserPosts(userId) {
