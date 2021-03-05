@@ -4,10 +4,13 @@ import { View, Text, FlatList, Image, Dimensions } from "react-native";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
-function Feed({ userFollowingPosts }) {
+//todo - sort userFollowingPosts according to creation date
+
+function Feed({ userFollowingPosts, navigation }) {
   if (userFollowingPosts.length < 1) {
     return <View />;
   }
+
   return (
     <View style={{ flex: 1 }}>
       <FlatList
@@ -17,12 +20,21 @@ function Feed({ userFollowingPosts }) {
         keyExtractor={(item) => item.id}
         data={userFollowingPosts}
         renderItem={({ item }) => (
-          <View style={{ flex: 1 / 3 }}>
+          <View>
             <Image
               style={{ flex: 1, aspectRatio: 1 / 1 }}
               source={{ uri: `${item?.downloadURL}` }}
             />
             <Text>{item.downloadURL}</Text>
+            <Text
+              onPress={() =>
+                navigation.navigate("Comment", {
+                  postId: item.id,
+                })
+              }
+            >
+              View comments...
+            </Text>
           </View>
         )}
       />
