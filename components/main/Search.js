@@ -13,9 +13,9 @@ import { connect } from "react-redux";
 import { fetchUsers } from "../../redux/actions";
 
 function Search({ fetchUsers, navigation, allUsers }) {
-  useEffect(() => {
-    fetchUsers("");
-  }, []);
+  // useEffect(() => {
+  //   fetchUsers("");
+  // }, []);
 
   const debouncedSearch = useCallback(
     debounce((value) => fetchUsers(value), 1000)

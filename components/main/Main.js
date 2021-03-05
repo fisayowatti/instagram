@@ -10,6 +10,7 @@ import {
   fetchUser,
   fetchUserFollowingList,
   fetchUserPosts,
+  fetchUsers,
 } from "../../redux/actions/index";
 import { bindActionCreators } from "redux";
 import { useAuthState } from "../../auth";
@@ -20,6 +21,7 @@ const Main = ({
   fetchUserPosts,
   fetchUserFollowingList,
   clearData,
+  fetchUsers,
 }) => {
   const Tab = createBottomTabNavigator();
 
@@ -29,6 +31,7 @@ const Main = ({
     fetchUser(auth.userId);
     fetchUserPosts(auth.userId);
     fetchUserFollowingList(auth.userId);
+    fetchUsers("");
   }, [auth.userId]);
 
   return (
@@ -94,7 +97,13 @@ const mapStateToProps = (store) => ({
 
 const mapDispatchToProps = (dispatch) =>
   bindActionCreators(
-    { fetchUser, fetchUserPosts, fetchUserFollowingList, clearData },
+    {
+      fetchUser,
+      fetchUserPosts,
+      fetchUserFollowingList,
+      clearData,
+      fetchUsers,
+    },
     dispatch
   );
 
