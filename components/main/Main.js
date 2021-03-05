@@ -11,6 +11,7 @@ import {
   fetchUserFollowingList,
   fetchUserPosts,
   fetchUsers,
+  fetchUserLikedPosts,
 } from "../../redux/actions/index";
 import { bindActionCreators } from "redux";
 import { useAuthState } from "../../auth";
@@ -22,6 +23,7 @@ const Main = ({
   fetchUserFollowingList,
   clearData,
   fetchUsers,
+  fetchUserLikedPosts,
 }) => {
   const Tab = createBottomTabNavigator();
 
@@ -32,6 +34,7 @@ const Main = ({
     fetchUserPosts(auth.userId);
     fetchUserFollowingList(auth.userId);
     fetchUsers("");
+    fetchUserLikedPosts(auth.userId);
   }, [auth.userId]);
 
   return (
@@ -103,6 +106,7 @@ const mapDispatchToProps = (dispatch) =>
       fetchUserFollowingList,
       clearData,
       fetchUsers,
+      fetchUserLikedPosts,
     },
     dispatch
   );
