@@ -9,6 +9,7 @@ import { fetchUser } from "../../redux/actions/index";
 import AddScreen from "../main/Add";
 import MainScreen from "../main/Main";
 import SaveScreen from "../main/Save";
+import CommentScreen from "../main/Comment";
 
 const Stack = createStackNavigator();
 export default function AuthenticatedApp() {
@@ -22,6 +23,7 @@ export default function AuthenticatedApp() {
         />
         <Stack.Screen name="Add" component={AddScreen} />
         <Stack.Screen name="Save" component={SaveScreen} />
+        <Stack.Screen name="Comment" component={CommentScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
