@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { View, Text, FlatList, Image, StyleSheet } from "react-native";
 import { connect } from "react-redux";
 import { useAuth } from "../../auth";
-import { firestore } from "../../firebase-setup";
+import { firestore } from "../../firebase";
 
 //something weird is happening where trying to update a value in a post is resulting in duplicate posts
 
